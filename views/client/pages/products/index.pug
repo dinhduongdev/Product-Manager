@@ -1,0 +1,19 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main  
+    .container 
+        .row 
+            .col-12 
+                +boxhead("Danh sách sản phẩm")
+        .row    
+            each item in productList 
+                .col-4.mb-3 
+                    .product-item 
+                        .inner-image 
+                            img(src="https://cdn-v2.didongviet.vn/files/products/2023/8/29/1/1695953279709_thumb_iphone_15_didongviet.jpg", alt="alt")
+                        .inner-content 
+                            h3.inner-title #{item.title}
+                            .inner-price-new #{item.priceNew}$
+                            .inner-price-old #{item.price}$
+                            .inner-price-discount #{item.discountPercentage}
