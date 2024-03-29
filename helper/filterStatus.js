@@ -11,7 +11,7 @@ module.exports = (req) => {
       class: "",
     },
     {
-      name: "Tất cả",
+      name: "Ngừng hoạt động",
       status: "inactive",
       class: "",
     },

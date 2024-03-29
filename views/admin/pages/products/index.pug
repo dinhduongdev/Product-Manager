@@ -1,9 +1,9 @@
 extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
+include ../../mixins/formSearch.pug
 
 block main 
     h1 Product List
-
     .card.mb-3 
         .card-header Bộ lọc và tìm kiếm
         .card-body 
@@ -11,12 +11,7 @@ block main
                 .col-6
                     +filterStatus(filterStatus)
                 .col-6
-                    form(id="form-search")
-                        .input-group
-                            input(type="text" class="form-control" placeholder="Nhập từ khoá" name="keyword" value=keyword)
-                            .input-group-append
-                                button(class="btn btn-success" type="submit" ) Tìm kiếm
-
+                    +formSearch(keyword)
         table.table.table-hover.table-sm 
                 thead 
                     tr  
@@ -42,4 +37,19 @@ block main
                             td 
                                 button(class="btn btn-warning btn-sm") Sửa 
                                 button(class="btn btn-danger btn-sm ml-1") Xoá  
+    nav
+        ul.pagination
+            if objectPagination.currentPage > 1
+                li.page-item
+                    button(class="page-link" button-pagination= objectPagination.currentPage-1 ) Trang trước
+            - for (let i = 1; i <= objectPagination.totalPage; i++)
+                li.page-item
+                    button(class="page-link" button-pagination=i)= i
+            if objectPagination.currentPage < objectPagination.totalPage
+                li.page-item
+                    button(class="page-link" button-pagination= objectPagination.currentPage  + 1 ) Trang kế tiếp
+            
+
+
+
 

@@ -1,5 +1,6 @@
-const buttons = document.querySelectorAll("[ button-status]");
+const buttons = document.querySelectorAll("[button-status]");
 
+//  filter status
 if (buttons.length > 0) {
   let url = new URL(window.location.href);
   buttons.forEach((btn) => {
@@ -8,7 +9,6 @@ if (buttons.length > 0) {
       status
         ? url.searchParams.set("status", status)
         : url.searchParams.delete("status");
-
       window.location.href = url.href;
     });
   });
@@ -27,5 +27,20 @@ if (formSearch) {
       : url.searchParams.delete("keyword");
 
     window.location.href = url.href;
+  });
+}
+
+//current page
+const buttonPagination = document.querySelectorAll("[button-pagination]");
+
+if (buttonPagination.length > 0) {
+  let url = new URL(window.location.href);
+
+  buttonPagination.forEach((button) => {
+    button.addEventListener("click", () => {
+      const page = button.getAttribute("button-pagination");
+      page ? url.searchParams.set("page", page) : url.searchParams.set("page");
+      window.location.href = url.href;
+    });
   });
 }
