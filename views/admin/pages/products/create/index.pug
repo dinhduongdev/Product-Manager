@@ -1,0 +1,109 @@
+extends ../../../layouts/default.pug
+
+
+block main 
+    h1 Tạo mới sản phẩm
+
+    form(
+        action= `${prefixAdmin}/products/create`
+        id= "form-create-product"
+        method= "POST"
+    )
+        div(class= "form-group")
+            label(for="title") Tiêu đề
+            input(
+                id="title"
+                type="text"
+                name="title"
+                class="form-control"
+                required
+            ) 
+        div(class= "form-group")
+            label(for="title") Mô tả
+            textarea(
+                id="desc"
+                name="description"
+                class="form-control"
+                rows="5"
+            ) 
+        div(class= "form-group")
+            label(for="price") Giá
+            input(
+                id="price"
+                type="number"
+                name="priceProduct"
+                class="form-control"
+                required
+                value=0
+                min="0"
+            ) 
+        div(class= "form-group")
+            label(for="discount") % giảm giá
+            input(
+                id="discount"
+                type="number"
+                name="discountPercentage"
+                class="form-control"
+                value=0
+                min="0"
+            ) 
+        div(class= "form-group")
+            label(for="stock") Số lượng
+            input(
+                id="stock"
+                type="number"
+                name="stockProduct"
+                class="form-control"
+                value=0
+                min="0"
+            ) 
+        div(class= "form-group")
+            label(for="thumbnail") Ảnh
+            input(
+                id="thumbnail"
+                type="text"
+                name="thumbnail"
+                class="form-control"
+            ) 
+        div(class= "form-group")
+            label(for="position") Vị trí
+            input(
+                id="position"
+                class="form-control"
+                type="number"
+                name="position"
+                min="1"
+            ) 
+        div(class= "form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked
+            ) 
+            label(for="statusActive" class="form-check-lable")  Hoạt động
+        div(class= "form-group form-check form-check-inline")   
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInactive"
+                name="status"
+                value="inactive"
+            )
+            label(for="statusInactive" class="form-check-lable")  Không hoạt động
+        div(class= "form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Tạo mới
+
+
+
+    script(src="/admin/js/product.js")
+
+
+
+
+

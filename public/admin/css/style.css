@@ -46,3 +46,26 @@
   text-align: center;
   padding: 10px;
 }
+/* //alert */
+[show-alert] {
+  position: fixed;
+  top: 50px;
+  right: 15px;
+  width: 250px;
+  z-index: 9999;
+}
+@keyframes alert-hidden {
+  from {right: 15px}
+  to {
+    right: -100% ;
+    display: none;
+  }
+}
+[show-alert].alert-hidden{
+  animation-name: alert-hidden;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+
+/* // end alert   */

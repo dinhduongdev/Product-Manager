@@ -1,0 +1,20 @@
+mixin formChangeMutil(path)
+    form(
+        action=path 
+        method="POST"
+        form-change-multi
+    )
+        .d-flex
+            select( name="type" class="form-control")
+                option(disabled  selected) --Chọn hoạt động--- 
+                option(value="active" ) Hoạt động 
+                option(value="inactive" ) Không hoạt động 
+                option(value="delete-all" ) Xóa tất cả 
+                option(value="change-position" ) Thay đổi vị trí
+            input(
+                type="text"
+                name="ids"
+                class="form-control d-none"
+                placeholder="Nhập tên sản phẩm"
+            )
+            button(class="btn btn-primary" type="submit" ) Áp dụng

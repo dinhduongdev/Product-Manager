@@ -1,0 +1,12 @@
+mixin pagination(objectPagination)
+    nav
+        ul.pagination
+            if objectPagination.currentPage > 1
+                li.page-item
+                    button(class="page-link" button-pagination= objectPagination.currentPage-1 ) Trang trước
+            - for (let i = 1; i <= objectPagination.totalPage; i++)
+                li.page-item
+                    button(class="page-link" button-pagination=i)= i
+            if objectPagination.currentPage < objectPagination.totalPage
+                li.page-item
+                    button(class="page-link" button-pagination= objectPagination.currentPage  + 1 ) Trang kế tiếp

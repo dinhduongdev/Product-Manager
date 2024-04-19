@@ -16,6 +16,7 @@ module.exports = (req) => {
       class: "",
     },
   ];
+  
   if (req.query.status) {
     const index = filterStatus.findIndex(
       (item) => item.status === req.query.status
@@ -25,5 +26,6 @@ module.exports = (req) => {
     const index = filterStatus.findIndex((item) => item.status === "");
     filterStatus[index].class = "active";
   }
+
   return filterStatus;
 };

@@ -1,15 +1,12 @@
-extends ../../layouts/default.pug
-include ../../mixins/filterStatus.pug
-include ../../mixins/formSearch.pug
-include ../../mixins/pagination.pug
-include ../../mixins/formChangeMutil.pug
-include ../../mixins/alert.pug
+extends ../../../layouts/default.pug
+include ../../../mixins/filterStatus.pug
+include ../../../mixins/formSearch.pug
+include ../../../mixins/pagination.pug
+include ../../../mixins/formChangeMutil.pug
 
 block main 
-    +alert(5000)
-
-    h1 Product List
-    .card.mb-3
+    h1 Trash List
+    .card.mb-3 
         .card-header Bộ lọc và tìm kiếm
         .card-body 
             .row    
@@ -17,15 +14,7 @@ block main
                     +filterStatus(filterStatus)
                 .col-6
                     +formSearch(keyword)
-            .row.mt-5
-                .col-6  
-                    +formChangeMutil(`${prefixAdmin}/products/change-mutil?_method=PATCH`)
-                .col-6  
-                    a(
-                        class="btn btn-outline-success"
-                        href=`${prefixAdmin}/products/create`
-                    ) +Thêm sản phẩm
-
+            +formChangeMutil(`${prefixAdmin}/products/change-mutil?_method=PATCH`)
     .card.mb-3  
         .card-header Danh sách  
         .card-body  
@@ -44,7 +33,6 @@ block main
                         th Hình ảnh
                         th Tiêu đề
                         th Giá
-                        th Vị trí
                         th Trạng thái
                         th Hành động
                 tbody   
@@ -61,14 +49,6 @@ block main
                                 img(src=item.thumbnail, alt="alt" width="100px" height="100px")
                             td #{item.title}
                             td #{item.price}
-                            td  
-                                input(
-                                    type="text"
-                                    value= item.position
-                                    style="width: 50px"
-                                    name= "position"
-                                    min="1"
-                            )
                             td 
                                 if item.status === "inactive"
                                     a(
