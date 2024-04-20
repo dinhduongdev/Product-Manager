@@ -1,5 +1,5 @@
 const searchHelper = require("../../helper/search");
-
+const systemConfig = require("../../configs/system")
 const Product = require("../../models/product.model");
 // filterStatus
 const filterStatusHelper = require("../../helper/filterStatus");
@@ -104,6 +104,7 @@ module.exports.changeMulti =async (req, res) => {
 module.exports.deleteItem = async(req, res) => {
   const id = req.params.id;
   await Product.updateOne({ _id: id }, { deleted: "true" , deletedAt: new Date()});
+  
   res.redirect("back");
 }
 
@@ -157,10 +158,32 @@ module.exports.trash =async (req, res) => {
   })
 }
 
-// start create product
+// start create product [GET]
 module.exports.createProduct = (req, res) => {
   res.render("admin/pages/products/create/index",{
-    
+    pageTitle: "Thêm mới sản phẩm"
   })
+}
+// end create product
+
+
+// start create product [POST]
+module.exports.createProductPost = async(req, res) => {
+  console.log(req.file);
+  req.body.priceProduct = parseInt(req.body.priceProduct)
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stockProduct)
+
+  if (req.body.position === "") {
+    const productCount = await Product.countDocuments();
+    req.body.position = productCount + 1;
+  } else {
+    req.body.position = parseInt(req.body.position);
+  }
+  req.body.thumbnail = `/uploads/${req.file.filename}`
+  console.log(req.body);
+  const newProduct =  new Product(req.body)
+  await newProduct.save();
+  res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
 // end create product
