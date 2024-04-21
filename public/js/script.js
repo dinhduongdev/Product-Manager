@@ -118,3 +118,34 @@ if(showAlert){
     showAlert.classList.add("alert-hidden")
   })
 }
+
+
+//start| Preview an image before it is uploaded
+
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+  const uploadImageClose = document.querySelector("[upload-image-close]");
+
+  uploadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadImagePreview.src = URL.createObjectURL(file);
+      [uploadImagePreview, uploadImageClose].forEach((el) =>
+        el.classList.toggle("d-block", true)
+      );
+    }
+  });
+
+  uploadImageClose.addEventListener("click", () => {
+    uploadImagePreview.src = "";
+    [uploadImagePreview, uploadImageClose].forEach((el) =>
+      el.classList.toggle("d-block", false)
+    );
+    uploadImageInput.value = "";
+  });
+}
+
+
+//end| Preview an image before it is uploaded

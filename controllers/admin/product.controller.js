@@ -169,7 +169,6 @@ module.exports.createProduct = (req, res) => {
 
 // start create product [POST]
 module.exports.createProductPost = async(req, res) => {
-  console.log(req.file);
   req.body.priceProduct = parseInt(req.body.priceProduct)
   req.body.discountPercentage = parseFloat(req.body.discountPercentage)
   req.body.stock = parseInt(req.body.stockProduct)
@@ -180,10 +179,56 @@ module.exports.createProductPost = async(req, res) => {
   } else {
     req.body.position = parseInt(req.body.position);
   }
-  req.body.thumbnail = `/uploads/${req.file.filename}`
+  if(req.file){
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
   console.log(req.body);
   const newProduct =  new Product(req.body)
   await newProduct.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
 // end create product
+
+
+// start edit product
+module.exports.editProduct = async(req, res) => {
+  try {
+    const id = req.params.id;
+    const find = {
+      deleted: false,
+      _id: id
+    }
+  
+    const product = await Product.findOne(find)
+    console.log(product);
+    res.render("admin/pages/products/edit/index",{
+      pageTitle: "Chỉnh sửa sản phẩm",
+      product: product
+    })
+  } catch (error) {
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+
+}
+// end edit product
+
+
+// start edit product [PATch]
+module.exports.editProductPatch = async (req,res)=>{
+  console.log(req.body);
+  const id = req.params.id;
+  req.body.priceProduct = parseInt(req.body.priceProduct)
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stockProduct)
+  req.body.position = parseInt(req.body.position);
+  if(req.file){
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
+  try {
+    await Product.updateOne({_id:id}, req.body)
+    req.flash('success',"Cập nhật thành công")
+  } catch (error) {
+    req.flash('error',"Cập nhật không thành công")
+  }
+  res.redirect("back")
+}

@@ -1,17 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../../controllers/admin/product.controller");
+const validates = require("../../validates/admin/product.validate")
 const storageMulter = require("../../helper/storageMulter")
 const multer  = require('multer')
-const upload = multer({ storage:  multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "./public/uploads")
-      },
-      filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now()
-        cb(null, `${uniqueSuffix}-${file.originalname}`)
-      }
-  }) })
+const upload = multer({ storage:  storageMulter() })
 
 
 
@@ -21,8 +14,22 @@ router.patch("/change-status/:status/:id", controller.changeStatus);
 router.patch("/change-mutil", controller.changeMulti);
 router.delete("/delete/:id", controller.deleteItem);
 
+//edit
+router.get("/edit/:id", controller.editProduct);
+router.patch(
+    "/edit/:id",
+    upload.single('thumbnail'),
+    validates.createProductPost,
+    controller.editProductPatch
+);
+
 
 router.get("/create",controller.createProduct);
-router.post("/create", upload.single('thumbnail'),controller.createProductPost);
+router.post(
+    "/create", upload.single('thumbnail'),
+    validates.createProductPost,
+    controller.createProductPost
+
+);
 
 module.exports = router;
