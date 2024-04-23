@@ -6,8 +6,6 @@ const storageMulter = require("../../helper/storageMulter")
 const multer  = require('multer')
 const upload = multer({ storage:  storageMulter() })
 
-
-
 router.get("/", controller.product);
 router.get("/trash", controller.trash);
 router.patch("/change-status/:status/:id", controller.changeStatus);
@@ -31,5 +29,9 @@ router.post(
     controller.createProductPost
 
 );
+
+//detail
+router.get("/detail/:id", controller.detailProduct);
+
 
 module.exports = router;

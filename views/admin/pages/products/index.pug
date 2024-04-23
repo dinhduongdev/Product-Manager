@@ -6,9 +6,33 @@ include ../../mixins/formChangeMutil.pug
 include ../../mixins/alert.pug
 
 block main 
-    +alert(5000)
+    
 
     h1 Product List
+    .card.mb-3  
+        .card-header Sắp xếp 
+        .card-body  
+            .row 
+                .col-4 
+                    div(sort)
+                        select(
+                            name="sort"
+                            sort-select
+                        ) 
+                            option(value="position-desc") Vị trí giảm dần 
+                            option(value="position-asc") Vị trí tăng dần 
+                            option(value="price-desc") Giá giảm dần 
+                            option(value="price-asc") Giá tăng dần 
+                            option(value="title-desc") Tiêu đề giảm dần 
+                            option(value="title-asc") Tiêu đề tăng dần
+                        button(
+                            class="btn btn-outline-success ml-3"
+                            sort-apply
+                        ) +Áp dụng
+                    button(
+                        class="btn btn-danger mt-3"
+                        sort-clear
+                    ) Mặc định
     .card.mb-3
         .card-header Bộ lọc và tìm kiếm
         .card-body 
@@ -86,7 +110,11 @@ block main
                                         data-id = item.id
                                         button-change-status
                                     ) Hoạt động
-                            td 
+                            td  
+                                a(
+                                    href=`${prefixAdmin}/products/detail/${item.id}/`
+                                    class="btn btn-secondary btn-sm"
+                                ) Chi tiết
                                 a(
                                     href=`${prefixAdmin}/products/edit/${item.id}/`
                                     class="btn btn-warning btn-sm"

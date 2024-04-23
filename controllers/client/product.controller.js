@@ -29,3 +29,26 @@ module.exports.index = async (req, res) => {
     productList: newProducts,
   });
 };
+
+
+//detail
+module.exports.detail = async(req, res) => {
+  const slug = req.params.slug
+  try {
+    const id = req.params.id;
+    const find = {
+      deleted: false,
+      slug: slug,
+      status:"active"
+    }
+  
+    const product = await Product.findOne(find)
+    console.log(product);
+    res.render("client/pages/products/detail/index",{
+      pageTitle: "Chi tiết sản phẩm",
+      product: product
+    })
+  } catch (error) {
+    res.redirect(`/products`)
+  }
+}

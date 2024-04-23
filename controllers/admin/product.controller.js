@@ -5,6 +5,7 @@ const Product = require("../../models/product.model");
 const filterStatusHelper = require("../../helper/filterStatus");
 //pagination
 const paginationHelper = require("../../helper/pagination");
+const { model } = require("mongoose");
 module.exports.product = async (req, res) => {
   // filterStatus
   const filterStatus = filterStatusHelper(req);
@@ -42,8 +43,18 @@ module.exports.product = async (req, res) => {
   objectPagination.totalPage = Math.ceil(
     countProduct / objectPagination.limitItem
   );
+
+  // condition sort
+  let sort = {}
+
+  if(req.query.sortKey && req.query.sortValue ) {
+    sort[req.query.sortKey] = req.query.sortValue
+  }else{
+    sort.position = "desc"
+  }
+
   const products = await Product.find(find)
-    .sort({position: "desc"})
+    .sort(sort)
     .limit(objectPagination.limitItem)
     .skip(objectPagination.skip);
 
@@ -231,4 +242,25 @@ module.exports.editProductPatch = async (req,res)=>{
     req.flash('error',"Cập nhật không thành công")
   }
   res.redirect("back")
+}
+
+
+//detail product
+module.exports.detailProduct = async(req, res) => {
+  try {
+    const id = req.params.id;
+    const find = {
+      deleted: false,
+      _id: id
+    }
+  
+    const product = await Product.findOne(find)
+    console.log(product);
+    res.render("admin/pages/products/detail/index",{
+      pageTitle: "Chi tiết sản phẩm",
+      product: product
+    })
+  } catch (error) {
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
 }

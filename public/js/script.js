@@ -146,6 +146,26 @@ if (uploadImage) {
     uploadImageInput.value = "";
   });
 }
-
-
 //end| Preview an image before it is uploaded
+
+
+// sort item
+const sort = document.querySelector("[sort]")
+if(sort){
+  const sortSeclect = sort.querySelector("[sort-select]")
+  const btnSort = sort.querySelector("[sort-apply]")
+  const btnClear = document.querySelector("[sort-clear]")
+  let url = new URL(window.location.href)
+  btnSort.addEventListener("click", () =>{
+    const selectValue = sortSeclect.value
+    const [sortKey, sortValue] = selectValue.split("-")
+    url.searchParams.set("sortKey", sortKey)
+    url.searchParams.set("sortValue", sortValue)
+    window.location.href = url.href
+  })
+  btnClear.addEventListener("click", () =>{
+    url.searchParams.delete("sortKey")
+    url.searchParams.delete("sortValue")
+    window.location.href = url.href
+  })
+}
